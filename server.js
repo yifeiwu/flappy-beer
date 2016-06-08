@@ -1,22 +1,30 @@
-'use strict';
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var port = process.env.PORT || 3000;
 
-const express = require('express');
-const socketIO = require('socket.io');
-const path = require('path');
+app.use(express.static(__dirname + '/public'));
 
-const PORT = process.env.PORT || 3000;
-const INDEX = path.join(__dirname, 'index.html');
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + 'index1.html');
+});
 
-const server = express()
-  .use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-const io = socketIO(server);
 
-io.on('connection', (socket) => {
-  console.log('Client connected');
-  socket.on('getTime', () => {
-    socket.emit('time', new Date().toTimeString());
-  });
-  socket.on('disconnect', () => console.log('Client disconnected'));
+
+var connnections = 0;
+
+io.on('connection', function(socket) {
+    var total = io.engine.clientsCount;
+    console.log(total + ' connections');
+    io.emit('concurrent players', total);
+
+    socket.on('chat message', function(msg) {
+        io.emit('chat message', msg);
+    });
+});
+
+http.listen(port, function() {
+    console.log('listening on *:' + port);
 });

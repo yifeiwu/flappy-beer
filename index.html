@@ -1,16 +1,6 @@
 <html>
   <body>
-    <p id='server-time'></p>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io();
-      var el = document.getElementById('server-time');
-
-      socket.on('time', function(timeString) {
-        el.innerHTML = 'Server time: ' + timeString;
-      });
-
-      setInterval(socket.emit.bind(socket, 'getTime'), 1000);
-    </script>
+<iframe src="index1.html"></iframe>
+<p>changed</p>
   </body>
 </html>
