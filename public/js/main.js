@@ -148,7 +148,7 @@ function startGame() {
     //start up our loops
     var updaterate = 1000.0 / 60.0; //60 times a second
     loopGameloop = setInterval(gameloop, updaterate);
-    loopPipeloop = setInterval(updatePipes, 1400);
+    loopPipeloop = setInterval(updatePipes, 1200);
 
     //jump from the start!
     playerJump();
@@ -177,8 +177,8 @@ function gameloop() {
 
     //create the bounding box
     var box = document.getElementById('player').getBoundingClientRect();
-    var origwidth = 34.0;
-    var origheight = 24.0;
+    var origwidth = 33.0;
+    var origheight = 23.0;
 
     var boxwidth = origwidth - (Math.sin(Math.abs(rotation) / 90) * 8);
     var boxheight = (origheight + box.height) / 2;
@@ -263,10 +263,6 @@ function flapheard() {
         screenClick();
 };
 
-
-$(document).on("touchstart", screenClick);
-
-$(document).on("mousedown", screenClick);
 
 function screenClick() {
     if (currentstate == states.GameScreen) {
