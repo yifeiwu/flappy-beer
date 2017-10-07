@@ -12,15 +12,20 @@ app.get('/', function(request, response) {
     response.sendFile(__dirname + '/public/index.html');
 });
 
+app.get('/controller', function(request, response) {
+    response.sendFile(__dirname + '/public/controller.html');
+});
 
-
-
-var connnections = 0;
 
 io.on('connection', function(socket) {
-    var total = io.engine.clientsCount;
-    console.log(total + ' connections');
-    io.emit('concurrent players', total);
+
+
+
+    setInterval(function() {
+        var total = io.engine.clientsCount - 1;
+        io.emit('concurrent players', total);
+    }, 2000);
+
 
     socket.on('chat message', function(msg) {
         socket.broadcast.emit('chat message', msg);

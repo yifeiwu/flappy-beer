@@ -68,16 +68,7 @@ $(document).ready(function() {
     //start with the splash screen
     showSplash();
 
-    console.log("i'm in main load");
     var socket = io();
-    document.onkeydown = function() {
-        socket.emit('chat message', 'pressed');
-    };
-
-    document.addEventListener('touchstart', function() {
-        // the user touched the screen!
-        socket.emit('chat message', 'pressed');
-    });
 
     socket.on('chat message', function(msg) {
         console.log('heard from socklist');
