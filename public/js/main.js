@@ -71,13 +71,13 @@ $(document).ready(function() {
     console.log("i'm in main load");
     var socket = io();
     document.onkeydown = function() {
-        socket.broadcast.emit('chat message', 'pressed');
+        socket.emit('chat message', 'pressed');
         return false;
     };
 
     document.addEventListener('touchstart', function() {
         // the user touched the screen!
-        socket.broadcast.emit('chat message', 'pressed');
+        socket.emit('chat message', 'pressed');
         return false;
     });
 
