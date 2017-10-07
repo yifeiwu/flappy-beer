@@ -24,18 +24,18 @@ var states = Object.freeze({
 });
 
 var currentstate;
-
-var gravity = 0.25;
+var scale = $("#flyarea").height();
+var gravity = 0.0003 * scale;
 var velocity = 0;
-var position = 180;
+var position = 0.5 * scale;
 var rotation = 0;
-var jump = -4.6;
-var flyArea = $("#flyarea").height();
+var jump = -0.006 * scale;
+var flyArea = scale;
 
 var score = 0;
 var highscore = 0;
 
-var pipeheight = 90;
+var pipeheight = 190;
 var pipewidth = 52;
 var pipes = new Array();
 
@@ -72,13 +72,11 @@ $(document).ready(function() {
     var socket = io();
     document.onkeydown = function() {
         socket.emit('chat message', 'pressed');
-        return false;
     };
 
     document.addEventListener('touchstart', function() {
         // the user touched the screen!
         socket.emit('chat message', 'pressed');
-        return false;
     });
 
     socket.on('chat message', function(msg) {
@@ -109,7 +107,7 @@ function showSplash() {
 
     //set the defaults (again)
     velocity = 0;
-    position = 180;
+    position = 0.5 * scale;
     rotation = 0;
     score = 0;
 
