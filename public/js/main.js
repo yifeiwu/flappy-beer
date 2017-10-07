@@ -35,7 +35,7 @@ var flyArea = scale;
 var score = 0;
 var highscore = 0;
 
-var pipeheight = 190;
+var pipeheight = 220;
 var pipewidth = 52;
 var pipes = new Array();
 
@@ -501,6 +501,7 @@ var isIncompatible = {
         return navigator.userAgent.match(/IEMobile/i);
     },
     any: function() {
+        return false;
         return (isIncompatible.Android() || isIncompatible.BlackBerry() || isIncompatible.iOS() || isIncompatible.Opera() || isIncompatible.Safari() || isIncompatible.Windows());
     }
 };
