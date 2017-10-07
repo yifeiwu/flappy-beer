@@ -19,8 +19,6 @@ app.get('/controller', function(request, response) {
 
 io.on('connection', function(socket) {
 
-
-
     setInterval(function() {
         var total = io.engine.clientsCount - 1;
         io.emit('concurrent players', total);
@@ -29,6 +27,10 @@ io.on('connection', function(socket) {
 
     socket.on('chat message', function(msg) {
         socket.broadcast.emit('chat message', msg);
+    });
+
+    socket.on('reward', function() {
+        socket.broadcast.emit('reward');
     });
 });
 

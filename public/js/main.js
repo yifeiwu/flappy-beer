@@ -53,6 +53,8 @@ buzz.all().setVolume(volume);
 //loops
 var loopGameloop;
 var loopPipeloop;
+var socket = io();
+
 
 $(document).ready(function() {
     if (window.location.search == "?debug")
@@ -68,10 +70,9 @@ $(document).ready(function() {
     //start with the splash screen
     showSplash();
 
-    var socket = io();
 
     socket.on('chat message', function(msg) {
-        console.log('heard from socklist');
+        console.log('heard tap ');
         flapheard();
     });
 });
@@ -262,11 +263,10 @@ function flapheard() {
         screenClick();
 };
 
-//Handle mouse down OR touch start
-if ("ontouchstart" in window)
-    $(document).on("touchstart", screenClick);
-else
-    $(document).on("mousedown", screenClick);
+
+$(document).on("touchstart", screenClick);
+
+$(document).on("mousedown", screenClick);
 
 function screenClick() {
     if (currentstate == states.GameScreen) {
@@ -430,6 +430,7 @@ function showScore() {
             }, 1200, 'ease');
         }
     });
+    socket.emit('reward');
 
     //make the replay button clickable
     replayclickable = true;
@@ -466,20 +467,6 @@ function playerScore() {
     setBigScore();
 }
 
-my_random = (function() {
-    var seed = 0x2F6E2B1;
-    return function() {
-        // Robert Jenkins’ 32 bit integer hash function
-        seed = ((seed + 0x7ED55D16) + (seed << 12)) & 0xFFFFFFFF;
-        seed = ((seed ^ 0xC761C23C) ^ (seed >>> 19)) & 0xFFFFFFFF;
-        seed = ((seed + 0x165667B1) + (seed << 5)) & 0xFFFFFFFF;
-        seed = ((seed + 0xD3A2646C) ^ (seed << 9)) & 0xFFFFFFFF;
-        seed = ((seed + 0xFD7046C5) + (seed << 3)) & 0xFFFFFFFF;
-        seed = ((seed ^ 0xB55A4F09) ^ (seed >>> 16)) & 0xFFFFFFFF;
-        return (seed & 0xFFFFFFF) / 0x10000000;
-    };
-}());
-
 
 
 function updatePipes() {
@@ -491,7 +478,7 @@ function updatePipes() {
     //add a new pipe (top height + bottom height  + pipeheight == flyArea) and put it in our tracker
     var padding = 80;
     var constraint = flyArea - pipeheight - (padding * 2); //double padding (for top and bottom)
-    var topheight = Math.floor((my_random() * constraint) + padding); //add lower padding
+    var topheight = Math.floor((Math.random() * constraint) + padding); //add lower padding
     var bottomheight = (flyArea - pipeheight) - topheight;
     var newpipe = $('<div class="pipe animated"><div class="pipe_upper" style="height: ' + topheight + 'px;"></div><div class="pipe_lower" style="height: ' + bottomheight + 'px;"></div></div>');
     $("#flyarea").append(newpipe);

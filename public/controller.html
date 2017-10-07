@@ -6,7 +6,7 @@
       <meta name="author" content="Nebez Briefkani" />
       <meta name="description" content="play floppy bird. a remake of popular game flappy bird using just html/css/js" />
       <meta name="keywords" content="flappybird,flappy,bird,floppybird,floppy,html,html5,css,css3,js,javascript,jquery,github,nebez,briefkani,nebezb,open,source,opensource" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
 
       <!-- Open Graph tags -->
       <meta property="og:title" content="Floppy Bird" />
@@ -18,9 +18,41 @@
 
    </head>
    <body>
+   <style>
+   .btn {
+  background: #04ff00;
+  background-image: -webkit-linear-gradient(top, #04ff00, #297d1e);
+  background-image: -moz-linear-gradient(top, #04ff00, #297d1e);
+  background-image: -ms-linear-gradient(top, #04ff00, #297d1e);
+  background-image: -o-linear-gradient(top, #04ff00, #297d1e);
+  background-image: linear-gradient(to bottom, #04ff00, #297d1e);
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  font-family: Georgia;
+  color: #ffffff;
+  font-size: 3em;
+  margin: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #2c5224;
+  text-decoration: none;
+}
+</style>
+   <div style="width:50%; margin:auto; padding: 10px; text-align: center;">
+
    <img src='assets/splash.png'>
-         <h1> Flappy Beer </h1>
-      <p> Tap to control the beer with</p> <div id='concurrent'></div>
+   <br>
+   <br>
+   <a class='btn'>Flap!</a>
+   <br>
+   <br>
+      <p> to control the beer with</p> 
+      <div id='concurrent'></div>
+    </div>
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -28,24 +60,28 @@
 
     $(document).ready(function() {
 
+        var socket = io();
 
-    console.log("i'm in the controller ");
-    var socket = io();
-
-    document.addEventListener("keydown", dealWithKeyboard, false);
-    document.addEventListener("touchstart", dealWithKeyboard, false);
+        document.addEventListener("keydown", dealWithKeyboard, false);
+        document.addEventListener("touchstart", dealWithKeyboard, false);
 
 
-    function dealWithKeyboard() {
-        socket.emit('chat message', 'pressed');
-        return false;
-    };
+        function dealWithKeyboard() {
+            socket.emit('chat message', 'pressed');
+            return false;
+        };
 
-    var el = document.getElementById('concurrent');
+        var el = document.getElementById('concurrent');
 
-    socket.on('concurrent players', function(players) {
-      el.innerHTML = '' + players + ' players';
-    });
+        socket.on('concurrent players', function(players) {
+          el.innerHTML = '' + players + ' teammates';
+        });
+
+
+        socket.on('reward', function() {
+            window.location.replace("reward.png");
+        });
+
     });
     </script>
 
