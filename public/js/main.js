@@ -426,7 +426,9 @@ function showScore() {
             }, 1200, 'ease');
         }
     });
-    socket.emit('reward');
+    if (score > 3) {
+        socket.emit('reward');
+    }
 
     //make the replay button clickable
     replayclickable = true;
